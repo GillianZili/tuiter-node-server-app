@@ -15,19 +15,8 @@ const createTuit = async (req, res) => {
 
 const deleteTuit = async (req, res) => {
     const tuitdIdToDelete = req.params.tid;
-    try {
-        const deleteTuit = await tuitsDao.deleteTuit(tuitdIdToDelete);
-        if (deleteResult.deletedCount === 1) {
-            const status = { success: true, message: 'Tuit deleted successfully' };
-            res.json(status);
-        } else {
-            const status = { success: false, message: 'Tuit not found' };
-            res.json(status);
-        }
-    } catch (error) {
-        const status = { success: false, message: 'Failed to delete tuit', error: error.message };
-        res.json(status);
-    }
+    const status = await tuitsDao.deleteTuit(tuitdIdToDelete);
+    res.json(status);
 }
 
 const updateTuit = async (req, res) => {
