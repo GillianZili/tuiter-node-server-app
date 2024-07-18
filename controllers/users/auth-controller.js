@@ -41,7 +41,18 @@ const AuthController = (app) => {
         res.sendStatus(200);
     };
 
-    const update = async (req, res) => { };
+    const update = async (req, res) => {
+        const currentUser = req.session["currentUser"];
+        if (!currentUser) {
+            res.sendStatus(404);
+            return;
+        }
+        const user = req.body
+        await usersDao.updateUser(user._id,user)
+        req.session["currentUser"] = user
+        console.log(user)
+        res.json(user);
+    };
 
     app.post("/api/users/register", register);
     app.post("/api/users/login", login);
