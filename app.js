@@ -16,10 +16,17 @@ app.use(
     })
 );
 
+const FRONTEND = process.env.FRONTEND || "http://localhost:3000";
+if (process.env.FRONTEND) {
+    app.set("trust proxy", 1);
+    sess.cookie.secure = true;
+    sess.cookie.sameSite = "none";
+  }
+
 app.use(
     cors({
         credentials:true,
-        origin:"http://localhost:3000",
+        origin:FRONTEND,
     })
 );
 app.use(express.json());
